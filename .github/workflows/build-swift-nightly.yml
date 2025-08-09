@@ -1,12 +1,33 @@
 name: Build Swift Nightly
 
 on:
-  pull_request:
-  schedule:
-    - cron: '0 9 * * *'
-
-env:
-  DISTRIBUTION: debian-bookworm
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Swift Nighly Branch'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - swift-6.0-branch
+          - swift-6.1-branch
+          - swift-6.2-branch
+          - development
+      distribution:
+        description: 'Distribution'
+        required: true
+        default: 'debian-bookworm'
+        type: choice
+        options:
+          - ubuntu-focal
+          - ubuntu-jammy
+          - ubuntu-noble
+          - debian-bullseye
+          - debian-bookworm
+          - debian-trixie
+          - raspios-bullseye
+          - raspios-bookworm
+          - raspios-trixie
 
 jobs:
   nightly:
