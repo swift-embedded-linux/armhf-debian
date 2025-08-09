@@ -35,6 +35,8 @@ jobs:
         ]
     name: Build for armv7
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [fetch-sources]
     steps:
     - uses: actions/checkout@v4
@@ -58,7 +60,7 @@ jobs:
         commit: ${{ github.sha }}
         artifactErrorsFailBuild: true
         artifacts: "*.tar.gz"
-        body: "See the [README](https://github.com/xtremekforever/swift-armv7#continuous-integration) for more information on build artifacts."
+        body: "See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts."
 
   build-for-raspios:
     strategy:
@@ -72,6 +74,8 @@ jobs:
         swift-target-arch: ["armv6", "armv7"]
     name: Build for RaspiOS
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [fetch-sources]
     steps:
     - uses: actions/checkout@v4
@@ -97,4 +101,4 @@ jobs:
         commit: ${{ github.sha }}
         artifactErrorsFailBuild: false
         artifacts: "*.tar.gz"
-        body: "See the [README](https://github.com/xtremekforever/swift-armv7#continuous-integration) for more information on build artifacts."
+        body: "See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts."
