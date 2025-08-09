@@ -11,7 +11,7 @@ on:
         type: choice
         options:
           - swift-6.0-branch
-          - swift-6.1.1-branch
+          - swift-6.1-branch
           - swift-6.2-branch
           - development
       distribution:
@@ -25,6 +25,10 @@ on:
           - ubuntu-noble
           - debian-bullseye
           - debian-bookworm
+          - debian-trixie
+          - raspios-bullseye
+          - raspios-bookworm
+          - raspios-trixie
 
 jobs:
   nightly:
