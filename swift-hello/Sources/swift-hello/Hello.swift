@@ -7,9 +7,12 @@
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-#if canImport(CxxStdlib)
+
+// Building the CxxStdlib module is current broken for destination.json files,
+// this should be investigated/reported.
+/*#if canImport(CxxStdlib)
     import CxxStdlib
-#endif
+#endif*/
 
 @main
 struct Hello {

@@ -19,5 +19,8 @@ $SWIFT_NATIVE_PATH/swift build \
     --configuration ${SWIFTPM_CONFIGURATION} \
     --scratch-path ${SWIFT_PACKAGE_BUILDDIR}${STATIC_SUFFIX} \
     --destination ${SWIFTPM_DESTINATION_FILE} \
-    -Xswiftc -cxx-interoperability-mode=default \
     $PARAMS
+
+# Building with -cxx-interoperability-mode=default is currently broken for destination.json files,
+# this should be investigated/reported.
+#-Xswiftc -cxx-interoperability-mode=default \
