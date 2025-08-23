@@ -1,44 +1,26 @@
 name: Build Swift Nightly
-run-name: Build Swift Nightly - ${{ inputs.branch }} / ${{ inputs.distribution }}
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Swift Nighly Branch'
-        required: true
-        default: 'development'
-        type: choice
-        options:
-          - swift-6.0-branch
-          - swift-6.1-branch
-          - swift-6.2-branch
-          - development
-      distribution:
-        description: 'Distribution'
-        required: true
-        default: 'debian-bookworm'
-        type: choice
-        options:
-          - ubuntu-focal
-          - ubuntu-jammy
-          - ubuntu-noble
-          - debian-bullseye
-          - debian-bookworm
-          - debian-trixie
-          - raspios-bullseye
-          - raspios-bookworm
-          - raspios-trixie
+  pull_request:
+  schedule:
+    - cron: '0 9 * * *'
+
+env:
+  DISTRIBUTION: debian-bookworm
 
 jobs:
   nightly:
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ["swift-6.2-branch", "development"]
     env:
       SWIFT_TAG:
-      SWIFT_BRANCH: ${{ inputs.branch }}
+      SWIFT_BRANCH: ${{ matrix.branch }}
       SWIFT_PLATFORM: ubuntu2204
-      SWIFT_VERSION: ${{ inputs.branch }}
+      SWIFT_VERSION: ${{ matrix.branch }}
       SWIFT_WORKSPACE_CACHE: swift-workspace
-    name: Build Swift Nigtly - ${{ inputs.branch }} / ${{ inputs.distribution }}
+    name: Build Swift Nigtly
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -61,5 +43,5 @@ jobs:
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-target-arch: armv7
-        distribution: ${{ inputs.distribution }}
+        distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_VERSION }}
