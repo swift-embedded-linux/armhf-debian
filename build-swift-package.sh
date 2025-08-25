@@ -8,7 +8,7 @@ if [ $STATIC_SWIFT_STDLIB ]; then
     STATIC="Static"
 else
     # Only build tests when not building statically
-    PARAMS="--build-tests -Xswiftc"
+    PARAMS="--build-tests"
 fi
 
 echo "Cross compile Swift package $PARAMS"
