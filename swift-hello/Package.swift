@@ -13,7 +13,11 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .executableTarget(
             name: "swift-hello",
-            dependencies: []
+            dependencies: [],
+            swiftSettings: [
+                // Enable once https://github.com/swiftlang/swift/issues/83915 is resolved.
+                //.interoperabilityMode(.Cxx)
+            ]
         ),
         .testTarget(
             name: "swift-helloTests",
