@@ -65,7 +65,7 @@ fi
 
 # Apply patches
 echo "Apply Float16Support patch"
-patch -d . -p1 --forward <$SRC_ROOT/patches/0002-Add-arm-to-float16support-for-missing-symbol.patch
+patch -d . -p1 --forward <$SRC_ROOT/patches/0002-Add-arm-to-float16support-for-missing-symbol.patch || true
 
 if [[ $SWIFT_VERSION == *"5.9"* ]] || [[ $SWIFT_VERSION == *"5.10-"* ]]; then
     echo "Apply Foundation strlcpy/strlcat patch"
