@@ -2,11 +2,11 @@ name: Build Swift Release
 
 on:
   push:
-    branches: [ "release/6.1.3" ]
+    branches: [ "release/6.2" ]
 
 env:
-  SWIFT_VERSION: "6.1.3"
-  SWIFT_TAG: swift-6.1.3-RELEASE
+  SWIFT_VERSION: "6.2"
+  SWIFT_TAG: swift-6.2-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-workspace
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
         artifactErrorsFailBuild: true
         artifacts: "*.tar.gz"
         body: |
-          Contains Swift 6.1.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
+          Contains Swift 6.2.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
 
           - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Concurrency`, `Synchronization`
           - Foundation: `Foundation`, `Essentials`, `Internalization`, `Networking`, `XML`, `Collections`
@@ -113,7 +113,7 @@ jobs:
         artifactErrorsFailBuild: false
         artifacts: "*.tar.gz"
         body: |
-          Contains Swift 6.1.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
+          Contains Swift 6.2.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
 
           - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Concurrency`, `Synchronization`
           - Foundation: `Foundation`, `Essentials`, `Internalization`, `Networking`, `XML`, `Collections`
