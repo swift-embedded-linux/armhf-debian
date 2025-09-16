@@ -15,10 +15,8 @@ let package = Package(
             name: "swift-hello",
             dependencies: [],
             swiftSettings: [
-                // May not work on snapshots older than 2025-09 due to fix for
-                // https://github.com/swiftlang/swift/issues/83915 being present in these
-                // snapshots.
-                .interoperabilityMode(.Cxx)
+                // Re-enable in Swift 6.2.1 and later
+                //.interoperabilityMode(.Cxx)
             ]
         ),
         .testTarget(
