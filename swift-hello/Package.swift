@@ -15,8 +15,7 @@ let package = Package(
             name: "swift-hello",
             dependencies: [],
             swiftSettings: [
-                // Re-enable in Swift 6.2.1 and later
-                //.interoperabilityMode(.Cxx)
+                .interoperabilityMode(.Cxx)
             ]
         ),
         .testTarget(

@@ -7,6 +7,9 @@
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
+#if canImport(CxxStdlib)
+    import CxxStdlib
+#endif
 
 @main
 struct Hello {
