@@ -12,8 +12,6 @@ else
 fi
 
 echo "Cross compile Swift package $PARAMS"
-rm -rf $SWIFT_PACKAGE_BUILDDIR
-mkdir -p $SWIFT_PACKAGE_BUILDDIR
 cd $SWIFT_PACKAGE_SRCDIR
 $SWIFT_NATIVE_PATH/swift build \
     --configuration ${SWIFTPM_CONFIGURATION} \
