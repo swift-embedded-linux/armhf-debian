@@ -86,4 +86,5 @@ SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} \
 -use-ld=lld \
 -sdk ${STAGING_DIR} \
 -resource-dir ${SWIFT_BUILDDIR}/lib/swift \
+-Xcc -D_FILE_OFFSET_BITS=64 \
 "
