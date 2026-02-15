@@ -65,8 +65,9 @@ runs:
     shell: bash
     run: |
       mkdir -p artifacts
-      cp -r build/swift-hello-${{ inputs.swift-target-arch }}/release/swift-hello artifacts/
-      cp -r build/swift-hello-${{ inputs.swift-target-arch }}/release/*.xctest artifacts/
+      cp build/swift-hello-${{ inputs.swift-target-arch }}/release/swift-hello artifacts/
+      cp build/swift-hello-${{ inputs.swift-target-arch }}/release/*.xctest artifacts/
+      cp build/swift-hello-${{ inputs.swift-target-arch }}-static/release/swift-hello artifacts/swift-hello-static
   - uses: actions/upload-artifact@v4
     name: Publish
     with:
