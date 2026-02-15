@@ -61,29 +61,12 @@ runs:
       SYSROOT=${{ inputs.sysroot-name }} \
       TARGET_ARCH=${{ inputs.swift-target-arch }} \
         ./build-linux-cross-sdk.sh ${{ inputs.swift-tag }} ${{ inputs.distribution }}
-  - name: Test SDK for Linux
+  - name: Copy Artifacts
     shell: bash
-    env:
-      SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-${{ inputs.swift-target-arch }}
     run: |
-      docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME -v ${{ github.workspace }}/artifacts:/opt \
-        xtremekforever/swift-builder:${{ inputs.builder-tag }} \
-        swift build -c release \
-          --package-path swift-hello \
-          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json
-      cp ${{ github.workspace }}/swift-hello/.build/release/swift-hello ${{ github.workspace }}/artifacts/swift-hello
-  - name: Test Static SDK for Linux
-    shell: bash
-    env:
-      SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-${{ inputs.swift-target-arch }}
-    run: |
-      docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME -v ${{ github.workspace }}/artifacts:/opt \
-        xtremekforever/swift-builder:${{ inputs.builder-tag }} \
-        swift build -c release \
-          --package-path swift-hello \
-          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}-static.json \
-          --static-swift-stdlib
-      cp ${{ github.workspace }}/swift-hello/.build/release/swift-hello ${{ github.workspace }}/artifacts/swift-hello-static
+      mkdir -p artifacts
+      cp -r build/swift-hello-${{ inputs.swift-target-arch }}/release/swift-hello artifacts/
+      cp -r build/swift-hello-${{ inputs.swift-target-arch }}/release/*.xctest artifacts/
   - uses: actions/upload-artifact@v4
     name: Publish
     with:
