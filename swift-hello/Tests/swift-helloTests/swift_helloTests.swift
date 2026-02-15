@@ -15,6 +15,6 @@ final class swift_helloTests: XCTestCase {
 #if canImport(Testing)
     @Test
     func swiftTesting() {
-        #expect(true)
+        #expect(Bool(true))
     }
 #endif
