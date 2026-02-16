@@ -83,6 +83,7 @@ runs:
   - name: Run Test Binaries
     shell: bash
     run: |
+      SWIFT_VERSION=${{ inputs.swift-tag }} \
       STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
       SWIFT_TARGET_ARCH=${{ inputs.swift-target-arch }} \
         ./run-swift-hello.sh
@@ -90,6 +91,7 @@ runs:
     shell: bash
     run: |
       STATIC_SWIFT_STDLIB=1 \
+      SWIFT_VERSION=${{ inputs.swift-tag }} \
       STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
       SWIFT_TARGET_ARCH=${{ inputs.swift-target-arch }} \
         ./run-swift-hello.sh
