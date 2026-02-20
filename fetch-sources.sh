@@ -2,24 +2,29 @@
 set -e
 source swift-define
 
-mkdir -p ./downloads
+DOWNLOAD_DIR=$(pwd)/downloads
+
+mkdir -p $DOWNLOAD_DIR
 
 # Fetch sources
-cd ./downloads
+cd $DOWNLOAD_DIR
 if [[ -d "$SWIFT_SRCDIR" ]]; then
-    cd swift-corelibs-foundation
-    git stash
-
     echo "$SWIFT_SRCDIR exists"
     cd $SWIFT_SRCDIR
+    git stash
+
+    cd ../swift-corelibs-foundation
+    git stash
+
+    cd ../swift-foundation
     git stash
 else
     echo "Checkout Swift"
     git clone https://github.com/swiftlang/swift.git --depth 1
-    cd $SWIFT_SRCDIR
 fi
 
 # Update checkout
+cd $SWIFT_SRCDIR
 ./utils/update-checkout --clone --tag $SWIFT_VERSION \
     --skip-history \
     --skip-repository cmake \
@@ -71,4 +76,10 @@ if [[ $SWIFT_VERSION == *"5.9"* ]] || [[ $SWIFT_VERSION == *"5.10-"* ]]; then
     echo "Apply Foundation strlcpy/strlcat patch"
     cd ../swift-corelibs-foundation
     patch -d . -p1 <$SRC_ROOT/patches/0002-Foundation-check-for-strlcpy-strlcat.patch
+fi
+
+if [[ $SWIFT_VERSION == *"6."* ]] && [ -d $DOWNLOAD_DIR/swift-foundation ]; then
+    echo "Apply Foundation FileManager.attributesOfFileSystem patch"
+    cd ../swift-foundation
+    patch -d . -p1 <$SRC_ROOT/patches/0003-Foundation-FileManager.attributesOfFileSystem-crash-armv7.patch
 fi

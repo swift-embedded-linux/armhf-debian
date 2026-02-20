@@ -50,7 +50,7 @@ cp -rf $SYSROOT/* $TARGET_SDK_DIR
 echo "Copying Swift install into $TARGET_SDK_DIR..."
 cp -rf $INSTALL_DESTDIR/* $TARGET_SDK_DIR
 
-# Annoying but helpful for Swift versions < 6.1
+# Annoying but helpful for Swift versions < 6.1.1
 if [[ $SWIFT_VERSION == *"5."* ]] || [[ $SWIFT_VERSION == *"6.0"* ]]; then
     echo "Creating SDKSettings.json to silence cross-compilation warnings"
     cat <<EOT > $TARGET_SDK_DIR/SDKSettings.json
