@@ -53,12 +53,7 @@ runs:
         tail -f /dev/null
   - name: Build Swift
     shell: bash
-    run: |
-      # WORKAROUND: Building Foundation will sometimes find libcurl in the host
-      # /usr/lib/x86_64-linux-gnu directory, causing the build to fail. So here we remove
-      # the libraries from the container before starting the build.
-      docker exec swift-armv7-builder /bin/bash -c "apt remove -y libcurl4-openssl-dev"
-      docker exec --user runner --workdir ${{ github.workspace }} swift-armv7-builder ./build.sh
+    run: docker exec --user runner --workdir ${{ github.workspace }} swift-armv7-builder ./build.sh
   - name: Build SDK for Linux
     shell: bash
     run: |
