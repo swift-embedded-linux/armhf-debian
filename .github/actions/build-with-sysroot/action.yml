@@ -84,7 +84,9 @@ runs:
         artifacts/swift-hello*
   - name: Install Host Dependencies
     shell: bash
-    run: sudo apt install -y qemu-user
+    run: |
+      sudo apt-get update
+      sudo apt-get install -y qemu-user
   - name: Run Test Binaries
     shell: bash
     run: |
