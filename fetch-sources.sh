@@ -69,6 +69,9 @@ cd $SWIFT_SRCDIR
     --skip-repository zlib \
 
 # Apply patches
+echo "Apply MetadataAccessor patch for -mthumb"
+patch -d . -p1 --forward <$SRC_ROOT/patches/0001-Add-fix-for-MetadataAccessor-ABI-mismatch.patch || true
+
 echo "Apply Float16Support patch"
 patch -d . -p1 --forward <$SRC_ROOT/patches/0002-Add-arm-to-float16support-for-missing-symbol.patch || true
 

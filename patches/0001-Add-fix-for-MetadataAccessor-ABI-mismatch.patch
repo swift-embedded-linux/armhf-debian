@@ -1,0 +1,28 @@
+From 65a869926fae8d8e9eeaa6cf42b77d279caa3b70 Mon Sep 17 00:00:00 2001
+From: "Jesse L. Zamora" <xtremekforever@gmail.com>
+Date: Thu, 19 Mar 2026 00:52:46 +0000
+Subject: [PATCH] Add fix for MetadataAccessor ABI mismatch
+
+---
+ include/swift/ABI/Metadata.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/include/swift/ABI/Metadata.h b/include/swift/ABI/Metadata.h
+index bede8490591..a972b99f431 100644
+--- a/include/swift/ABI/Metadata.h
++++ b/include/swift/ABI/Metadata.h
+@@ -4297,8 +4297,9 @@ public:
+     TargetCanonicalSpecializedMetadatasListCount<Runtime>;
+   using MetadataListEntry = 
+     TargetCanonicalSpecializedMetadatasListEntry<Runtime>;
+-  using MetadataAccessor = 
+-    TargetCompactFunctionPointer<Runtime, MetadataResponse(MetadataRequest), /*Nullable*/ false>;
++  using MetadataAccessor = TargetCompactFunctionPointer<
++      Runtime, SWIFT_CC(swift) MetadataResponse(MetadataRequest),
++      /*Nullable*/ false>;
+   using MetadataAccessorListEntry =
+       TargetCanonicalSpecializedMetadataAccessorsListEntry<Runtime>;
+   using MetadataCachingOnceToken =
+-- 
+2.43.0
+
