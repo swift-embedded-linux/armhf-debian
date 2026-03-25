@@ -7,11 +7,11 @@ case ${SWIFT_TARGET_ARCH} in
         CMAKE_TARGET_ARCH="armv6l"
         # The only version of armv6 supported is the RPI ARM1176JZF-S, which is only supported by Raspbian
         # If you attempt to build for armv6 with a Ubuntu or Debian sysroot, binaries will fail to run!!!
-        EXTRA_FLAGS="-march=armv6 -mfpu=vfp -mfloat-abi=hard"
+        EXTRA_FLAGS=${EXTRA_FLAGS:="-march=armv6 -mfpu=vfp -mfloat-abi=hard"}
         ;;
     armv7)
         CMAKE_TARGET_ARCH="armv7-a"
-        EXTRA_FLAGS="-march=${CMAKE_TARGET_ARCH} -mfpu=neon -mfloat-abi=hard"
+        EXTRA_FLAGS=${EXTRA_FLAGS:="-march=${CMAKE_TARGET_ARCH} -mfpu=neon -mfloat-abi=hard"}
         ;;
     *)
         echo "Unsupported architecture $SWIFT_TARGET_ARCH!"
@@ -44,6 +44,11 @@ if [ -d ${STAGING_DIR} ]; then
 else
     GCC_INSTALL_DIR=${STAGING_DIR}
 fi
+ENABLE_THUMB=${ENABLE_THUMB:=0}
+if [ $ENABLE_THUMB -eq 1 ]; then
+    EXTRA_FLAGS="${EXTRA_FLAGS} -mthumb"
+    THUMB_SUFFIX="-thumb"
+fi
 
 # Build Paths
 LLVM_SRCDIR=$SRC_ROOT/downloads/llvm-project
@@ -73,11 +78,11 @@ SWIFT_TESTING_BUILDDIR=$SRC_ROOT/build/swift-testing-linux-$SWIFT_TARGET_ARCH
 SWIFT_TESTING_INSTALL_PREFIX=$SRC_ROOT/build/swift-testing-linux-$SWIFT_TARGET_ARCH-install
 SWIFTPM_DESTINATION_FILE=${SWIFTPM_DESTINATION_FILE:=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain$STATIC_SUFFIX.json}
 INSTALL_PREFIX=$SRC_ROOT/build/swift-install/usr
-INSTALL_TAR=${INSTALL_TAR:=$SRC_ROOT/build/$SWIFT_VERSION-$SWIFT_TARGET_ARCH.tar.gz}
+INSTALL_TAR=${INSTALL_TAR:=$SRC_ROOT/build/$SWIFT_VERSION-$SWIFT_TARGET_ARCH$THUMB_SUFFIX.tar.gz}
 PREBUILT_XCTOOLCHAIN=$SRC_ROOT/downloads/${SWIFT_VERSION}-osx.pkg
 
 # Compilation flags
-EXTRA_FLAGS="${EXTRA_FLAGS} -D_FILE_OFFSET_BITS=64 -mthumb"
+EXTRA_FLAGS="${EXTRA_FLAGS} -D_FILE_OFFSET_BITS=64"
 RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} --gcc-install-dir=${GCC_INSTALL_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS}"
 LINK_FLAGS="--sysroot=${STAGING_DIR} --gcc-install-dir=${GCC_INSTALL_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS}"
 ASM_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME}"
