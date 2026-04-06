@@ -15,7 +15,26 @@ SYSROOT=$(pwd)/$SYSROOT
 
 # These are only for armhf Debian sysroots. Expand to support more architectures if needed.
 MULTILIB_DIR=arm-linux-gnueabihf
-MULTILIB_LIBRARIES=(libc.so.6 libm.so.6 libpthread.so.0)
+MULTILIB_LIBRARIES=(libanl.so.1
+libBrokenLocale.so.1 \
+libc_malloc_debug.so.0 \
+libc.so.6 \
+libdl.so.2 \
+libgcc_s.so.1 \
+libmemusage.so \
+libm.so.6 \
+libnsl.so.1 \
+libnss_compat.so.2 \
+libnss_dns.so.2 \
+libnss_files.so.2 \
+libnss_hesiod.so.2 \
+libpcprofile.so \
+libpthread.so.0 \
+libresolv.so.2 \
+librt.so.1 \
+libthread_db.so.1 \
+libutil.so.1 \
+)
 MUTLILIB_LD=ld-linux-armhf.so.3
 
 DISTRIBUTION="$DISTRIBUTION_NAME:$DISTRIUBTION_VERSION"
@@ -108,7 +127,7 @@ if [[ $DISTRIBUTION_NAME = "raspios" ]]; then
     cp -P $SYSROOT_BUILD_DIR/lib/$MULTILIB_DIR/$MUTLILIB_LD $SYSROOT/lib/$MULTILIB_DIR/$MUTLILIB_LD
     cp -P $SYSROOT_BUILD_DIR/lib/$MUTLILIB_LD $SYSROOT/lib/$MUTLILIB_LD
     for lib in "${MULTILIB_LIBRARIES[@]}"; do
-        cp -P $SYSROOT_BUILD_DIR/lib/$MULTILIB_DIR/$lib $SYSROOT/lib/$MULTILIB_DIR/$lib
+        cp -P $SYSROOT_BUILD_DIR/lib/$MULTILIB_DIR/$lib $SYSROOT/lib/$MULTILIB_DIR/
     done
     cp -r $SYSROOT_BUILD_DIR/usr/include $SYSROOT/usr/include
     cp -r $SYSROOT_BUILD_DIR/usr/lib $SYSROOT/usr/lib
@@ -122,7 +141,7 @@ else
     echo "Starting up qemu emulation"
     docker run --privileged --rm tonistiigi/binfmt --install all
 
-    CONTAINER_NAME=swift-armhf-sysroot-$DISTRIBUTION_VERSION
+    CONTAINER_NAME=swift-armhf-sysroot-$DISTRIUBTION_VERSION
 
     echo "Building $DISTRIBUTION distribution for sysroot"
     docker rm --force $CONTAINER_NAME
@@ -138,7 +157,7 @@ else
     docker cp $CONTAINER_NAME:/lib/$MULTILIB_DIR/$MUTLILIB_LD $SYSROOT/lib/$MULTILIB_DIR/$MUTLILIB_LD
     docker cp $CONTAINER_NAME:/lib/$MUTLILIB_LD $SYSROOT/lib/$MUTLILIB_LD
     for lib in "${MULTILIB_LIBRARIES[@]}"; do
-        docker cp $CONTAINER_NAME:/lib/$MULTILIB_DIR/$lib $SYSROOT/lib/$MULTILIB_DIR/$lib
+        docker cp $CONTAINER_NAME:/lib/$MULTILIB_DIR/$lib $SYSROOT/lib/$MULTILIB_DIR/
     done
     docker cp $CONTAINER_NAME:/usr/include $SYSROOT/usr/include
     docker cp $CONTAINER_NAME:/usr/lib $SYSROOT/usr/lib
