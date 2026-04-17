@@ -11,13 +11,13 @@ cd $DOWNLOAD_DIR
 if [[ -d "$SWIFT_SRCDIR" ]]; then
     echo "$SWIFT_SRCDIR exists"
     cd $SWIFT_SRCDIR
-    git reset --hard HEAD
+    git reset --hard HEAD && git clean -fd
 
     cd ../swift-corelibs-foundation
-    git reset --hard HEAD
+    git reset --hard HEAD && git clean -fd
 
     cd ../swift-foundation
-    git reset --hard HEAD
+    git reset --hard HEAD && git clean -fd
 else
     echo "Checkout Swift"
     git clone https://github.com/swiftlang/swift.git --depth 1
@@ -69,12 +69,12 @@ cd $SWIFT_SRCDIR
     --skip-repository zlib \
 
 # Apply patches
-echo "Apply Float16Support patch"
-patch -d . -p1 --forward <$SRC_ROOT/patches/0002-Add-arm-to-float16support-for-missing-symbol.patch || true
-
 if [[ $SWIFT_VERSION == *"6.3"* ]]; then
     echo "Apply Swift 6.3 cxx interop patch"
     patch -d . -p1 <$SRC_ROOT/patches/0003-Swift-6.3-cxx-interop-Fix-modularization-for-cmath-with-libstd.patch
+else
+    echo "Apply Float16Support patch"
+    patch -d . -p1 --forward <$SRC_ROOT/patches/0002-Add-arm-to-float16support-for-missing-symbol.patch || true
 fi
 
 if [[ $SWIFT_VERSION == *"5.9"* ]] || [[ $SWIFT_VERSION == *"5.10-"* ]]; then
