@@ -1,0 +1,74 @@
+From 08231096a797b828d06d176542050edc250337f9 Mon Sep 17 00:00:00 2001
+From: Egor Zhdan <e_zhdan@apple.com>
+Date: Mon, 2 Mar 2026 16:28:59 +0000
+Subject: [PATCH] [cxx-interop] Fix modularization for `<cmath>` with libstdc++
+
+This fixes compiler errors on Fedora 42 and similar distros.
+
+`<cmath>` wasn't correctly listed in the modulemap that Swift injects into libstdc++.
+
+rdar://152032606 / resolves https://github.com/swiftlang/swift/issues/81774
+---
+ stdlib/public/Cxx/libstdcxx/libstdcxx.modulemap | 6 ++++++
+ test/Interop/Cxx/stdlib/Inputs/include-math.h   | 3 +++
+ test/Interop/Cxx/stdlib/Inputs/module.modulemap | 5 +++++
+ test/Interop/Cxx/stdlib/use-math.swift          | 7 +++++++
+ 4 files changed, 21 insertions(+)
+ create mode 100644 test/Interop/Cxx/stdlib/Inputs/include-math.h
+ create mode 100644 test/Interop/Cxx/stdlib/use-math.swift
+
+diff --git a/stdlib/public/Cxx/libstdcxx/libstdcxx.modulemap b/stdlib/public/Cxx/libstdcxx/libstdcxx.modulemap
+index 29500f9f905..cb64b3768e1 100644
+--- a/stdlib/public/Cxx/libstdcxx/libstdcxx.modulemap
++++ b/stdlib/public/Cxx/libstdcxx/libstdcxx.modulemap
+@@ -84,6 +84,12 @@ module std {
+       export *
+     }
+ 
++    module cmath {
++      header "cmath"
++      requires cplusplus
++      export *
++    }
++
+     module cstdlib {
+       header "cstdlib"
+       requires cplusplus
+diff --git a/test/Interop/Cxx/stdlib/Inputs/include-math.h b/test/Interop/Cxx/stdlib/Inputs/include-math.h
+new file mode 100644
+index 00000000000..912fb1af2b7
+--- /dev/null
++++ b/test/Interop/Cxx/stdlib/Inputs/include-math.h
+@@ -0,0 +1,3 @@
++#include <math.h>
++
++int getMyInt() { return 42; }
+diff --git a/test/Interop/Cxx/stdlib/Inputs/module.modulemap b/test/Interop/Cxx/stdlib/Inputs/module.modulemap
+index 99833cf9c94..ccc42e19dae 100644
+--- a/test/Interop/Cxx/stdlib/Inputs/module.modulemap
++++ b/test/Interop/Cxx/stdlib/Inputs/module.modulemap
+@@ -123,3 +123,8 @@ module StdList {
+   requires cplusplus
+   export *
+ }
++
++module IncludeMath {
++  header "include-math.h"
++  export *
++}
+diff --git a/test/Interop/Cxx/stdlib/use-math.swift b/test/Interop/Cxx/stdlib/use-math.swift
+new file mode 100644
+index 00000000000..deb6aeb3d75
+--- /dev/null
++++ b/test/Interop/Cxx/stdlib/use-math.swift
+@@ -0,0 +1,7 @@
++// RUN: %target-typecheck-verify-swift -I %S/Inputs -cxx-interoperability-mode=upcoming-swift
++
++// This ensures that Swift can import C/C++ modules that contain `#include <math.h>`.
++
++import IncludeMath
++
++let x = getMyInt()
+-- 
+2.53.0
+
