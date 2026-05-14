@@ -15,7 +15,7 @@ let package = Package(
             name: "swift-hello",
             dependencies: [],
             swiftSettings: [
-                .interoperabilityMode(.Cxx)
+                //.interoperabilityMode(.Cxx)
             ]
         ),
         .testTarget(
