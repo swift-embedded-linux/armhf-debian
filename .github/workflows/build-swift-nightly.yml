@@ -14,7 +14,7 @@ on:
           - swift-6.1-branch
           - swift-6.2-branch
           - swift-6.3-branch
-          - swift-6.4-branch
+          - swift-6.4.x-branch
           - development
       distribution:
         description: 'Distribution'
