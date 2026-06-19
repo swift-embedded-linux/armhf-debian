@@ -81,5 +81,5 @@ fi
 if [[ $SWIFT_VERSION == *"6."* ]] && [ -d $DOWNLOAD_DIR/swift-foundation ]; then
     echo "Apply Foundation FileManager.attributesOfFileSystem patch"
     cd ../swift-foundation
-    patch -d . -p1 <$SRC_ROOT/patches/0003-Foundation-FileManager.attributesOfFileSystem-crash-armv7.patch
+    patch -d . -p1 --forward <$SRC_ROOT/patches/0003-Foundation-FileManager.attributesOfFileSystem-crash-armv7.patch
 fi
