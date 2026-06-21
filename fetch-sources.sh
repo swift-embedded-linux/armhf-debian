@@ -11,13 +11,13 @@ cd $DOWNLOAD_DIR
 if [[ -d "$SWIFT_SRCDIR" ]]; then
     echo "$SWIFT_SRCDIR exists"
     cd $SWIFT_SRCDIR
-    git reset --hard HEAD
+    git reset --hard HEAD && git clean -fd
 
     cd ../swift-corelibs-foundation
-    git reset --hard HEAD
+    git reset --hard HEAD && git clean -fd
 
     cd ../swift-foundation
-    git reset --hard HEAD
+    git reset --hard HEAD && git clean -fd
 else
     echo "Checkout Swift"
     git clone https://github.com/swiftlang/swift.git --depth 1
@@ -78,8 +78,8 @@ if [[ $SWIFT_VERSION == *"5.9"* ]] || [[ $SWIFT_VERSION == *"5.10-"* ]]; then
     patch -d . -p1 <$SRC_ROOT/patches/0002-Foundation-check-for-strlcpy-strlcat.patch
 fi
 
-if [[ $SWIFT_VERSION == *"6."* ]] && [ -d $DOWNLOAD_DIR/swift-foundation ]; then
+if [[ $SWIFT_VERSION == *"6.0"* ]] || [[ $SWIFT_VERSION == *"6.1"* ]] || [[ $SWIFT_VERSION == *"6.2"* ]] || [[ $SWIFT_VERSION == *"6.3"* ]]; then
     echo "Apply Foundation FileManager.attributesOfFileSystem patch"
     cd ../swift-foundation
-    patch -d . -p1 --forward <$SRC_ROOT/patches/0003-Foundation-FileManager.attributesOfFileSystem-crash-armv7.patch
+    patch -d . -p1 <$SRC_ROOT/patches/0003-Foundation-FileManager.attributesOfFileSystem-crash-armv7.patch
 fi
