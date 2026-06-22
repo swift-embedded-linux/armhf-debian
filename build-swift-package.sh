@@ -2,6 +2,8 @@
 set -e
 source swift-define
 
+BUILD_SYSTEM=${BUILD_SYSTEM:-native}
+
 if [ $STATIC_SWIFT_STDLIB ]; then
     PARAMS="--static-swift-stdlib"
 else
@@ -15,4 +17,5 @@ $SWIFT_NATIVE_PATH/swift build \
     --configuration ${SWIFTPM_CONFIGURATION} \
     --scratch-path ${SWIFT_PACKAGE_BUILDDIR} \
     --destination ${SWIFTPM_DESTINATION_FILE} \
+    --build-system ${BUILD_SYSTEM} \
     $PARAMS
