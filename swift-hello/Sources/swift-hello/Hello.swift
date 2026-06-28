@@ -83,7 +83,7 @@ func asyncErrorTest(error: Error = CocoaError(.userCancelled)) async throws {
 
 #if canImport(FoundationNetworking) || canImport(Darwin)
     func testFoundationNetworking() async throws {
-        let url = URL(string: "https://httpbin.org/anything")!
+        let url = URL(string: "https://httpbingo.org/anything")!
         let body = Data("test-\(UUID())".utf8)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
