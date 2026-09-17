@@ -31,6 +31,9 @@ case $DISTRIUBTION_VERSION in
     "trixie")
         INSTALL_GCC_VERSION=14
         ;;
+    "resolute")
+        INSTALL_GCC_VERSION=15
+        ;;
     *)
         echo "Unsupported distribution $DISTRIBUTION!"
         echo "If you'd like to support it, update this script to add the apt package list for it."

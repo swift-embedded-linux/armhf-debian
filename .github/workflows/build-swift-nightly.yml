@@ -25,6 +25,7 @@ on:
           - ubuntu-focal
           - ubuntu-jammy
           - ubuntu-noble
+          - ubuntu-resolute
           - debian-bullseye
           - debian-bookworm
           - debian-trixie
